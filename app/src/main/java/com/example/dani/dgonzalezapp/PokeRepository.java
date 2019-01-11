@@ -1,14 +1,13 @@
-package com.example.dani.dgonzalezapp.DAO;
+package com.example.dani.dgonzalezapp;
 
-import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
-import android.os.AsyncTask;
 
 import com.example.dani.dgonzalezapp.api.PokedbAPI;
 import com.example.dani.dgonzalezapp.api.PokedbModule;
+import com.example.dani.dgonzalezapp.db.PokeDAO;
+import com.example.dani.dgonzalezapp.db.PokeDatabase;
 import com.example.dani.dgonzalezapp.model.Poke;
-import com.example.dani.dgonzalezapp.model.PokeDetails;
 import com.example.dani.dgonzalezapp.model.PokeList;
 
 import java.util.List;
@@ -34,6 +33,10 @@ public class PokeRepository {
         return pokeDao.getAllPoke();
     }
 
+    public LiveData<Poke> getPokemonById(Integer id){
+        return pokeDao.queryPokemonById(id);
+    }
+
     public void refreshPokemonList() {
         pokeAPI.getPokemonList().enqueue(new Callback<PokeList>() {
             @Override
@@ -55,20 +58,24 @@ public class PokeRepository {
     }
 
     public void updatePokemon(final Poke poke){
-        pokeAPI.getPokemon(poke.url).enqueue(new Callback<PokeDetails>() {
-            @Override
-            public void onResponse(Call<PokeDetails> call, final Response<PokeDetails> response) {
-                executor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        pokeDao.insertDetails(response.body());
-                    }
-                });
-            }
+        Poke pokemonFromDB = pokeDao.queryPokemon(poke.name);
 
-            @Override
-            public void onFailure(Call<PokeDetails> call, Throwable t) {
-            }
-        });
+        if(pokemonFromDB == null) {
+            pokeAPI.getPokemon(poke.url).enqueue(new Callback<Poke>() {
+                @Override
+                public void onResponse(Call<Poke> call, final Response<Poke> response) {
+                    executor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            pokeDao.insert(response.body());
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<Poke> call, Throwable t) {
+                }
+            });
+        }
     }
 }

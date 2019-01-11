@@ -47,6 +47,7 @@ public class PokeListAdapter extends RecyclerView.Adapter<PokeListAdapter.PokeLi
             public void onClick(View v) {
                 Intent intent = new Intent(holder.itemView.getContext(), PokeActivity.class);
                 intent.putExtra("url", poke.url);
+                intent.putExtra("id", poke.id);
                 holder.itemView.getContext().startActivity(intent);
             }
         });

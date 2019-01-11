@@ -6,23 +6,22 @@ import android.support.annotation.NonNull;
 
 
 import com.example.dani.dgonzalezapp.model.Poke;
-import com.example.dani.dgonzalezapp.model.PokeDetails;
 
 import java.util.List;
 
 public class MainViewModel extends AndroidViewModel {
-    private PokedbRepository pokedbRepository;
+    private PokeRepository pokeRepository;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
-        pokedbRepository = new PokedbRepository();
+        pokeRepository = new PokeRepository(application);
     }
 
     public LiveData<List<Poke>> getPokemons(){
-        return pokedbRepository.getPokemonList();
+        return pokeRepository.getPokemonList();
     }
 
-    public LiveData<PokeDetails> getPokemon(String url) {
-        return pokedbRepository.getPokemon(url);
+    public LiveData<Poke> getPokemon(Integer id) {
+        return pokeRepository.getPokemonById(id);
     }
 }

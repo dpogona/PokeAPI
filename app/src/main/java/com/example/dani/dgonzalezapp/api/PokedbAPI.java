@@ -1,6 +1,5 @@
 package com.example.dani.dgonzalezapp.api;
 import com.example.dani.dgonzalezapp.model.Poke;
-import com.example.dani.dgonzalezapp.model.PokeDetails;
 import com.example.dani.dgonzalezapp.model.PokeList;
 
 
@@ -13,5 +12,5 @@ public interface PokedbAPI {
     Call<PokeList> getPokemonList();
 
     @GET
-    Call<PokeDetails> getPokemon(@Url String url);
+    Call<Poke> getPokemon(@Url String url);
 }

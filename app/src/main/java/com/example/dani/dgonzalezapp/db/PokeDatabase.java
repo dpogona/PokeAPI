@@ -1,4 +1,4 @@
-package com.example.dani.dgonzalezapp.DAO;
+package com.example.dani.dgonzalezapp.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -6,17 +6,14 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.example.dani.dgonzalezapp.model.Poke;
-import com.example.dani.dgonzalezapp.model.PokeDetails;
 
 
-@Database(entities = {Poke.class, PokeDetails.class}, version = 8)
+@Database(entities = {Poke.class}, version = 9)
 public abstract class PokeDatabase extends RoomDatabase{
 
     public abstract PokeDAO pokeDao();
 
     private static volatile PokeDatabase INSTANCE;
-
-
 
     public static PokeDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
