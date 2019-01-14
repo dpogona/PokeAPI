@@ -39,5 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 mPokeListAdapter.notifyDataSetChanged();
             }
         });
+
+
     }
 }

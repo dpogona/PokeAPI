@@ -7,8 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.dani.dgonzalezapp.GlideApp;
 import com.example.dani.dgonzalezapp.R;
 import com.example.dani.dgonzalezapp.model.Poke;
 
@@ -51,6 +53,8 @@ public class PokeListAdapter extends RecyclerView.Adapter<PokeListAdapter.PokeLi
                 holder.itemView.getContext().startActivity(intent);
             }
         });
+
+        GlideApp.with(holder.itemView.getContext()).load(poke.sprites.front_default).into(holder.imatge);
     }
 
     @Override
@@ -65,9 +69,12 @@ public class PokeListAdapter extends RecyclerView.Adapter<PokeListAdapter.PokeLi
 
     class PokeListViewHolder extends RecyclerView.ViewHolder {
         TextView tv_pokename;
+        ImageView imatge;
+
         public PokeListViewHolder(View itemView) {
             super(itemView);
             tv_pokename = itemView.findViewById(R.id.name);
+            imatge = itemView.findViewById(R.id.imagen);
         }
     }
 }
